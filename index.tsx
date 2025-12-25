@@ -128,7 +128,12 @@ const App = () => {
   const nextStage = () => {
     if (stage === 0) {
       setIsPlaying(true);
-      audioRef.current?.play().catch(() => {});
+      if (audioRef.current) {
+  audioRef.current.muted = false;
+  audioRef.current.volume = 0.6;
+  audioRef.current.play().catch(() => {});
+}
+
     }
     setStage(prev => prev + 1);
   };
@@ -177,7 +182,13 @@ const App = () => {
       {/* Sparkles & Magic */}
       <MagicCanvas mode={celebrate ? 'explosion' : stage > 0 ? 'ambient' : 'off'} />
 
-      <audio ref={audioRef} loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/12/06/audio_7c9e66a8c6.mp3" />
+      <audio
+  ref={audioRef}
+  loop
+  preload="auto"
+  playsInline
+  src="https://cdn.pixabay.com/download/audio/2022/12/06/audio_7c9e66a8c6.mp3"
+/>
 
       
       <button onClick={toggleAudio} className="fixed top-8 right-8 z-50 p-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/20 transition-all shadow-2xl">
