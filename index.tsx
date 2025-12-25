@@ -177,7 +177,8 @@ const App = () => {
       {/* Sparkles & Magic */}
       <MagicCanvas mode={celebrate ? 'explosion' : stage > 0 ? 'ambient' : 'off'} />
 
-      <audio ref={audioRef} loop src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sia-music/snowman&color=%23ffffff&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" />
+      <audio ref={audioRef} loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/12/06/audio_7c9e66a8c6.mp3" />
+
       
       <button onClick={toggleAudio} className="fixed top-8 right-8 z-50 p-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/20 transition-all shadow-2xl">
         {isPlaying ? <Volume2 size={20} className="text-emerald-200" /> : <VolumeX size={20} className="text-rose-300" />}
