@@ -160,9 +160,11 @@ const App = () => {
 
   const toggleAudio = () => {
     if (audioRef.current) {
-      isPlaying ? audioRef.current.pause() : audioRef.current.play();
-      setIsPlaying(!isPlaying);
-    }
+  audioRef.current.muted = false;
+  audioRef.current.volume = 0.5;
+  audioRef.current.currentTime = 0;
+  audioRef.current.play().catch(console.error);
+}
   };
 
   return (
@@ -187,8 +189,9 @@ const App = () => {
   loop
   preload="auto"
   playsInline
-  src="https://cdn.pixabay.com/download/audio/2022/12/06/audio_7c9e66a8c6.mp3"
+  src="/song.mp3"
 />
+
 
       
       <button onClick={toggleAudio} className="fixed top-8 right-8 z-50 p-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/20 transition-all shadow-2xl">
