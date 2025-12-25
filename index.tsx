@@ -86,20 +86,25 @@ const MagicCanvas = ({ mode }: { mode: 'ambient' | 'explosion' | 'off' }) => {
 
 const TypewriterMessage = ({ text, onComplete, speed = 250 }: { text: string; onComplete?: () => void, speed?: number }) => {
   const [displayedWords, setDisplayedWords] = useState<string[]>([]);
-  const words = useMemo(() => text.split(' '), [text]);
+  const words = useMemo(() => text.split(/(\s+)/), [text]);
   const indexRef = useRef(0);
 
   useEffect(() => {
-    if (indexRef.current < words.length) {
-      const timer = setTimeout(() => {
-        setDisplayedWords((prev) => [...prev, words[indexRef.current]]);
-        indexRef.current += 1;
-      }, speed);
-      return () => clearTimeout(timer);
-    } else if (onComplete) {
-      onComplete();
-    }
-  }, [displayedWords, words, speed, onComplete]);
+  if (indexRef.current < words.length) {
+    const current = words[indexRef.current];
+    const delay = current.trim() === '' ? 0 : speed;
+
+    const timer = setTimeout(() => {
+      setDisplayedWords(prev => [...prev, current]);
+      indexRef.current += 1;
+    }, delay);
+
+    return () => clearTimeout(timer);
+  } else if (onComplete) {
+    onComplete();
+  }
+}, [displayedWords, words, speed, onComplete]);
+
 
   return (
     <div className="text-2xl md:text-4xl font-serif text-emerald-950 leading-relaxed text-center">
@@ -172,7 +177,7 @@ const App = () => {
       {/* Sparkles & Magic */}
       <MagicCanvas mode={celebrate ? 'explosion' : stage > 0 ? 'ambient' : 'off'} />
 
-      <audio ref={audioRef} loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" />
+      <audio ref={audioRef} loop src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/sia-music/snowman&color=%23ffffff&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false" />
       
       <button onClick={toggleAudio} className="fixed top-8 right-8 z-50 p-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/20 transition-all shadow-2xl">
         {isPlaying ? <Volume2 size={20} className="text-emerald-200" /> : <VolumeX size={20} className="text-rose-300" />}
